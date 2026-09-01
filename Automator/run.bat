@@ -14,7 +14,7 @@ echo ============================= >> "%LOG%"
 echo Run started: %date% %time% >> "%LOG%"
 echo ============================= >> "%LOG%"
 
-:: Step 1 — Coffee FX ingest (incremental, LSEG)
+:: Step 1 - Coffee FX ingest (incremental, LSEG)
 echo [1] Running coffee_ingest_lseg.py... >> "%LOG%"
 "%PYTHON%" "C:\Users\virat.arya\ETG\SoftsDatabase - Documents\Database\Hardmine\LSEG\Currency\Code\coffee_ingest_lseg.py" >> "%LOG%" 2>&1
 if %ERRORLEVEL% NEQ 0 (
@@ -23,7 +23,7 @@ if %ERRORLEVEL% NEQ 0 (
     goto notify
 )
 
-:: Step 2 — Cocoa FX ingest (incremental, LSEG)
+:: Step 2 - Cocoa FX ingest (incremental, LSEG)
 echo [2] Running cocoa_ingest_lseg.py... >> "%LOG%"
 "%PYTHON%" "C:\Users\virat.arya\ETG\SoftsDatabase - Documents\Database\Hardmine\LSEG\Currency\Code\cocoa_ingest_lseg.py" >> "%LOG%" 2>&1
 if %ERRORLEVEL% NEQ 0 (
@@ -32,7 +32,7 @@ if %ERRORLEVEL% NEQ 0 (
     goto notify
 )
 
-:: Step 3 — Push updated parquets to GitHub
+:: Step 3 - Push updated parquets to GitHub
 echo [3] Pushing to GitHub... >> "%LOG%"
 cd /d "C:\Users\virat.arya\ETG\SoftsDatabase - Documents\Database\Hardmine\LSEG\Currency"
 git add Database\currency_data.parquet Database\cocoa_currency_data.parquet >> "%LOG%" 2>&1
