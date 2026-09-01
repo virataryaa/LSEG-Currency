@@ -12,7 +12,7 @@ import pandas as pd
 from pathlib import Path
 
 TO_EMAIL    = "virat.arya@etgworld.com"
-DB_DIR      = Path(r"C:\Users\virat.arya\ETG\SoftsDatabase - Documents\Database\Hardmine\Interim_Migration\Currency\Database")
+DB_DIR      = Path(r"C:\Users\virat.arya\ETG\SoftsDatabase - Documents\Database\Hardmine\LSEG\Currency\Database")
 COFFEE_FILE = DB_DIR / "currency_data.parquet"
 COCOA_FILE  = DB_DIR / "cocoa_currency_data.parquet"
 
@@ -66,7 +66,7 @@ def send_outlook_email(subject: str, body: str):
 
 ok  = status == "ok"
 tag = "[OK]" if ok else "[ERROR]"
-subject = f"{tag} Interim_Migration-Currency (LSEG) — {today}"
+subject = f"{tag} LSEG-Currency (LSEG) — {today}"
 
 git_line = {
     "pushed":  "GitHub  : Pushed successfully",
@@ -74,7 +74,7 @@ git_line = {
     "failed":  "GitHub  : PUSH FAILED",
 }.get(git_status, f"GitHub  : {git_status}")
 
-body = f"""Interim_Migration Currency (LSEG) — Daily Update
+body = f"""LSEG Currency (LSEG) — Daily Update
 Run time : {run_dt}
 Status   : {"OK" if ok else "ERROR — ingest failed, check run_log.txt"}
 {git_line}
@@ -85,7 +85,7 @@ DATABASE SUMMARY
 {parquet_summary(COFFEE_FILE, "Coffee FX", COFFEE_COLS, ["Arabica_Idx", "Robusta_Idx"])}
 {parquet_summary(COCOA_FILE,  "Cocoa FX",  COCOA_COLS,  ["Cocoa_Idx"])}
 {"=" * 45}
-Log: C:\\Users\\virat.arya\\ETG\\SoftsDatabase - Documents\\Database\\Hardmine\\Interim_Migration\\Currency\\Automator\\run_log.txt
+Log: C:\\Users\\virat.arya\\ETG\\SoftsDatabase - Documents\\Database\\Hardmine\\LSEG\\Currency\\Automator\\run_log.txt
 """
 
 print(body)

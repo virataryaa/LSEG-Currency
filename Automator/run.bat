@@ -1,7 +1,7 @@
 @echo off
 setlocal EnableDelayedExpansion
 set PYTHON=C:\Users\virat.arya\AppData\Local\Microsoft\WindowsApps\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\python.exe
-set LOG=C:\Users\virat.arya\ETG\SoftsDatabase - Documents\Database\Hardmine\Interim_Migration\Currency\Automator\run_log.txt
+set LOG=C:\Users\virat.arya\ETG\SoftsDatabase - Documents\Database\Hardmine\LSEG\Currency\Automator\run_log.txt
 set INGEST_STATUS=ok
 set GIT_STATUS=skipped
 
@@ -16,7 +16,7 @@ echo ============================= >> "%LOG%"
 
 :: Step 1 — Coffee FX ingest (incremental, LSEG)
 echo [1] Running coffee_ingest_lseg.py... >> "%LOG%"
-"%PYTHON%" "C:\Users\virat.arya\ETG\SoftsDatabase - Documents\Database\Hardmine\Interim_Migration\Currency\Code\coffee_ingest_lseg.py" >> "%LOG%" 2>&1
+"%PYTHON%" "C:\Users\virat.arya\ETG\SoftsDatabase - Documents\Database\Hardmine\LSEG\Currency\Code\coffee_ingest_lseg.py" >> "%LOG%" 2>&1
 if %ERRORLEVEL% NEQ 0 (
     echo ERROR: coffee_ingest_lseg.py failed >> "%LOG%"
     set INGEST_STATUS=error
@@ -25,7 +25,7 @@ if %ERRORLEVEL% NEQ 0 (
 
 :: Step 2 — Cocoa FX ingest (incremental, LSEG)
 echo [2] Running cocoa_ingest_lseg.py... >> "%LOG%"
-"%PYTHON%" "C:\Users\virat.arya\ETG\SoftsDatabase - Documents\Database\Hardmine\Interim_Migration\Currency\Code\cocoa_ingest_lseg.py" >> "%LOG%" 2>&1
+"%PYTHON%" "C:\Users\virat.arya\ETG\SoftsDatabase - Documents\Database\Hardmine\LSEG\Currency\Code\cocoa_ingest_lseg.py" >> "%LOG%" 2>&1
 if %ERRORLEVEL% NEQ 0 (
     echo ERROR: cocoa_ingest_lseg.py failed >> "%LOG%"
     set INGEST_STATUS=error
@@ -34,7 +34,7 @@ if %ERRORLEVEL% NEQ 0 (
 
 :: Step 3 — Push updated parquets to GitHub
 echo [3] Pushing to GitHub... >> "%LOG%"
-cd /d "C:\Users\virat.arya\ETG\SoftsDatabase - Documents\Database\Hardmine\Interim_Migration\Currency"
+cd /d "C:\Users\virat.arya\ETG\SoftsDatabase - Documents\Database\Hardmine\LSEG\Currency"
 git add Database\currency_data.parquet Database\cocoa_currency_data.parquet >> "%LOG%" 2>&1
 git diff --cached --quiet
 if %ERRORLEVEL% NEQ 0 (
@@ -55,6 +55,6 @@ if %ERRORLEVEL% NEQ 0 (
 
 :notify
 echo [4] Sending email notification... >> "%LOG%"
-"%PYTHON%" "C:\Users\virat.arya\ETG\SoftsDatabase - Documents\Database\Hardmine\Interim_Migration\Currency\Automator\notify.py" %INGEST_STATUS% %GIT_STATUS% >> "%LOG%" 2>&1
+"%PYTHON%" "C:\Users\virat.arya\ETG\SoftsDatabase - Documents\Database\Hardmine\LSEG\Currency\Automator\notify.py" %INGEST_STATUS% %GIT_STATUS% >> "%LOG%" 2>&1
 
 echo Run finished: %date% %time% >> "%LOG%"
